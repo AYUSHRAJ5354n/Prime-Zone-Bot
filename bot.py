@@ -29,7 +29,23 @@ class Bot(Client):
             sleep_threshold=15
         )
         self.START_TIME = time.time()
+# Make all bot messages protected (no forwarding/saving)
+    async def send_message(self, *args, **kwargs):
+        kwargs.setdefault("protect_content", True)
+        return await super().send_message(*args, **kwargs)
 
+    async def send_photo(self, *args, **kwargs):
+        kwargs.setdefault("protect_content", True)
+        return await super().send_photo(*args, **kwargs)
+
+    async def send_document(self, *args, **kwargs):
+        kwargs.setdefault("protect_content", True)
+        return await super().send_document(*args, **kwargs)
+
+    async def send_video(self, *args, **kwargs):
+        kwargs.setdefault("protect_content", True)
+        return await super().send_video(*args, **kwargs)
+        
     async def start(self):
         app = web.AppRunner(await web_server())
         await app.setup()
@@ -67,3 +83,4 @@ class Bot(Client):
         print(f"{me.first_name} Bot stopped.")
 
 bot = Bot()
+
